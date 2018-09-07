@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="好多朋友第一次接触以太坊的时候，都会搞不清什么是Gas，更搞不清Gas Price和Gas Limit是什么。 本文将逐一介绍并理清这三者之间的关系，相信你看完后就会理解这三个gas相关的概念了。 Gas   Gas对应于一个交易(Transaction)中以太坊虚拟机(EVM)的实际运算步数。 越简单的交易，例如单纯的 以太币转帐交易，需要的运算步数越少， Gas亦会需要的少一点。 反之，如果要">
-<meta name="keywords" content="区块链,Gas,以太坊Gas">
+  <meta name="description" content="如题，在一些项目中经常会碰到在web端使用设计图上的特殊字体，目前已知的解决方案是   购买字体库服务器，对方会提供个引入脚本置于你的站点中，不过天下没有免费的午餐。 通过搜集项目需要的字型集，然后生成压缩后的字体库文件用于项目中，目前成熟的是使用字蜘提供插件可以自动生成。  不过，font-spider *.html 只能针对于静态的html中的文字，问题是现在的前端开发环境已经不在像以前单纯操">
+<meta name="keywords" content="字体库,WebFont,字体压缩">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一分钟理清 Gas&#x2F;Gas Price&#x2F;Gas Limit">
-<meta property="og:url" content="https://yuniorzen.github.io/2018/08/18/一分钟理清GasGas、PriceGas、Limit/index.html">
+<meta property="og:title" content="如何在VUE项目中使用特殊字体库">
+<meta property="og:url" content="https://yuniorzen.github.io/2018/09/07/如何在vue项目中使用特殊字体库/index.html">
 <meta property="og:site_name" content="尤尼奥">
-<meta property="og:description" content="好多朋友第一次接触以太坊的时候，都会搞不清什么是Gas，更搞不清Gas Price和Gas Limit是什么。 本文将逐一介绍并理清这三者之间的关系，相信你看完后就会理解这三个gas相关的概念了。 Gas   Gas对应于一个交易(Transaction)中以太坊虚拟机(EVM)的实际运算步数。 越简单的交易，例如单纯的 以太币转帐交易，需要的运算步数越少， Gas亦会需要的少一点。 反之，如果要">
+<meta property="og:description" content="如题，在一些项目中经常会碰到在web端使用设计图上的特殊字体，目前已知的解决方案是   购买字体库服务器，对方会提供个引入脚本置于你的站点中，不过天下没有免费的午餐。 通过搜集项目需要的字型集，然后生成压缩后的字体库文件用于项目中，目前成熟的是使用字蜘提供插件可以自动生成。  不过，font-spider *.html 只能针对于静态的html中的文字，问题是现在的前端开发环境已经不在像以前单纯操">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2018-08-18T09:56:04.952Z">
+<meta property="og:updated_time" content="2018-09-07T12:11:20.024Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一分钟理清 Gas&#x2F;Gas Price&#x2F;Gas Limit">
-<meta name="twitter:description" content="好多朋友第一次接触以太坊的时候，都会搞不清什么是Gas，更搞不清Gas Price和Gas Limit是什么。 本文将逐一介绍并理清这三者之间的关系，相信你看完后就会理解这三个gas相关的概念了。 Gas   Gas对应于一个交易(Transaction)中以太坊虚拟机(EVM)的实际运算步数。 越简单的交易，例如单纯的 以太币转帐交易，需要的运算步数越少， Gas亦会需要的少一点。 反之，如果要">
+<meta name="twitter:title" content="如何在VUE项目中使用特殊字体库">
+<meta name="twitter:description" content="如题，在一些项目中经常会碰到在web端使用设计图上的特殊字体，目前已知的解决方案是   购买字体库服务器，对方会提供个引入脚本置于你的站点中，不过天下没有免费的午餐。 通过搜集项目需要的字型集，然后生成压缩后的字体库文件用于项目中，目前成熟的是使用字蜘提供插件可以自动生成。  不过，font-spider *.html 只能针对于静态的html中的文字，问题是现在的前端开发环境已经不在像以前单纯操">
 
 
 
 
 
 
-  <link rel="canonical" href="https://yuniorzen.github.io/2018/08/18/一分钟理清GasGas、PriceGas、Limit/"/>
+  <link rel="canonical" href="https://yuniorzen.github.io/2018/09/07/如何在vue项目中使用特殊字体库/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>一分钟理清 Gas/Gas Price/Gas Limit | 尤尼奥</title>
+  <title>如何在VUE项目中使用特殊字体库 | 尤尼奥</title>
   
 
 
@@ -317,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2018/08/18/一分钟理清GasGas、PriceGas、Limit/">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2018/09/07/如何在vue项目中使用特殊字体库/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Yunior">
@@ -334,7 +334,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">一分钟理清 Gas/Gas Price/Gas Limit
+          <h2 class="post-title" itemprop="name headline">如何在VUE项目中使用特殊字体库
               
             
           </h2>
@@ -359,7 +359,7 @@
                 
               
 
-              <time title="Post created: 2018-08-18 16:27:30 / Updated at: 17:56:04" itemprop="dateCreated datePublished" datetime="2018-08-18T16:27:30+08:00">2018-08-18</time>
+              <time title="Post created: 2018-09-07 19:47:30 / Updated at: 20:11:20" itemprop="dateCreated datePublished" datetime="2018-09-07T19:47:30+08:00">2018-09-07</time>
             
 
             
@@ -381,7 +381,7 @@
                 <span class="post-meta-item-text">in</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/区块链/" itemprop="url" rel="index"><span itemprop="name">区块链</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/前端技术/" itemprop="url" rel="index"><span itemprop="name">前端技术</span></a></span>
 
                 
                 
@@ -415,25 +415,18 @@
       
 
       
-        <p>好多朋友第一次接触以太坊的时候，都会搞不清什么是Gas，更搞不清Gas Price和Gas Limit是什么。 本文将逐一介绍并理清这三者之间的关系，相信你看完后就会理解这三个gas相关的概念了。</p>
-<h2 id="Gas"><a href="#Gas" class="headerlink" title="Gas"></a>Gas</h2><blockquote>
-<p>  Gas对应于一个交易(Transaction)中以太坊虚拟机(EVM)的实际运算步数。 越简单的交易，例如单纯的 以太币转帐交易，需要的运算步数越少， Gas亦会需要的少一点。 反之，如果要计算一些复杂运算，Gas的消耗 量就会大。 所以你提交的交易需要EVM进行的计算量越大，所需的Gas消耗量就越高了。</p>
-</blockquote>
-<h2 id="Gas-Price"><a href="#Gas-Price" class="headerlink" title="Gas Price"></a>Gas Price</h2><blockquote>
-<p>  Gas Price就是你愿意为一个单位的Gas出多少Eth，一般用Gwei作单位。 所以Gas Price 越高， 就表示交易中每运算一步，会支付更多的Eth。</p>
-</blockquote>
-<p>大家可能对Gwei 这个单位感到陌生，Gwei 其实就是10 ^ -9 Eth，也就是说1 Gwei = 0.000000001 Eth。 所以，当你设定Gas price = 20 Gwei ，就意味着你愿意为单步运算支付0.00000002 Eth。</p>
-<p>说到这里，聪明如你就会意识到以太坊的手续费计算公式很简单</p>
-<blockquote>
-<p>  交易手续费(Tx Fee) = 实际运行步数(Actual Gas Used) * 单步价格(Gas Price)</p>
-</blockquote>
-<p>例如你的交易需要以太坊执行50步完成运算，假设你设定的Gas Price是2 Gwei ，那么整个交易的手续费 就是50 * 2 = 100 Gwei 了。</p>
-<h2 id="Gas-Limit"><a href="#Gas-Limit" class="headerlink" title="Gas Limit"></a>Gas Limit</h2><blockquote>
-<p>  Gas Limit就是一次交易中Gas的可用上限，也就是你的交易中最多会执行多少步运算。 由于交易复杂程度各有不同， 确切的Gas消耗量是在完成交易后才会知道，因此在你提交交易之前，需要为交易设定一个Gas用量的上限。</p>
-</blockquote>
-<p>如果说你提交的交易尚未完成，消耗的Gas就已经超过你设定的Gas Limit，那么这次交易就会被取消，而 已经消耗的手续费同样被扣取 —— 因为要奖励已经付出劳动的矿工。 而如果交易已经完成，消耗的Gas未达到Gas Limit， 那么只会按实际消耗的Gas 收取交易服务费。 换句话说，一个交易可能被收取的最高服务费就是Gas Limit * Gas​​ Price 了。</p>
+        <p>如题，在一些项目中经常会碰到在web端使用设计图上的特殊字体，目前已知的解决方案是 </p>
+<ol>
+<li>购买字体库服务器，对方会提供个引入脚本置于你的站点中，不过天下没有免费的午餐。</li>
+<li>通过搜集项目需要的字型集，然后生成压缩后的字体库文件用于项目中，目前成熟的是使用字蜘提供插件可以自动生成。</li>
+</ol>
+<p>不过，font-spider *.html 只能针对于静态的html中的文字，问题是现在的前端开发环境已经不在像以前单纯操作html文件了，比如：vue项目中，我们通常的代码和文字都会写在.vue中，或者js文件中。</p>
+<p>恰巧，最近在项目遇到了这个问题，那么我想到是解决办法是：<br>首先获取到.vue、.js文件中字型集，然后使用字体库工具把你需要的文字生成压缩后的字体库文件，最后在项目中引用即可。</p>
+<h2 id="第一步：-getFonts-js-获取项目中的字型集"><a href="#第一步：-getFonts-js-获取项目中的字型集" class="headerlink" title="第一步： getFonts.js 获取项目中的字型集"></a>第一步： getFonts.js 获取项目中的字型集</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">//NodeJS 获取项目字型集，便于压缩字体库</span><br><span class="line"></span><br><span class="line">let fs=require(&apos;fs&apos;),</span><br><span class="line">    files,</span><br><span class="line">    content=[];</span><br><span class="line"></span><br><span class="line">let  walk=function(dir,exclude) &#123;</span><br><span class="line">    let results = [];</span><br><span class="line">    let  list = fs.readdirSync(dir);</span><br><span class="line">    list.forEach(function(file) &#123;</span><br><span class="line">        file = dir + &apos;/&apos; + file;</span><br><span class="line">        let stat = fs.statSync(file);</span><br><span class="line">        if(stat&amp;&amp; stat.isDirectory())&#123;           </span><br><span class="line">            results = results.concat(walk(file))</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            if(/.(vue|html|js)$/.test(file))&#123;</span><br><span class="line">                results.push(file)</span><br><span class="line">            &#125;    </span><br><span class="line">        &#125; </span><br><span class="line">    &#125;);</span><br><span class="line">    return results</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">((dir)=&gt;&#123;</span><br><span class="line">    files=walk(dir);</span><br><span class="line">    files.forEach(file=&gt;&#123;</span><br><span class="line">        let text=fs.readFileSync(file);</span><br><span class="line">        text.toString().split(&apos;&apos;).forEach(letter=&gt;&#123;</span><br><span class="line">            if(/[a-zA-Z0-9\u4e00-\u9fa5]/.test(letter)&amp;&amp;content.indexOf(letter)==-1)&#123;</span><br><span class="line">                content.push(letter);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)    </span><br><span class="line">    &#125;)</span><br><span class="line">    console.log(content.join(&apos;&apos;));</span><br><span class="line">&#125;)(&apos;./src&apos;); //需要获取的项目目录，这里vue项目是./src下；</span><br></pre></td></tr></table></figure>
+<h2 id="第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；-待续"><a href="#第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；-待续" class="headerlink" title="第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；#待续"></a>第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；#待续</h2><h2 id="第三步：在项目中-font-face声明字体并使用；"><a href="#第三步：在项目中-font-face声明字体并使用；" class="headerlink" title="第三步：在项目中@font-face声明字体并使用；"></a>第三步：在项目中@font-face声明字体并使用；</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@font-face &#123;</span><br><span class="line">	font-family: &quot;PingFangSC&quot;;</span><br><span class="line">	src:url(&quot;../fonts/PingFangSC.eot&quot;), /* IE9 */</span><br><span class="line">		url(&quot;../fonts/PingFangSC.woff&quot;) format(&quot;woff&quot;), /* chrome、firefox */</span><br><span class="line">		url(&quot;../fonts/PingFangSC.ttf&quot;) format(&quot;truetype&quot;), /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */  </span><br><span class="line">		url(&quot;../fonts/PingFangSC.svg#PingFangSC&quot;) format(&quot;svg&quot;); /* iOS 4.1- */</span><br><span class="line">	font-style: normal;</span><br><span class="line">	font-weight: normal;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
-<p>最后值得一提的是Gas Price 越高，你提交的交易会越快被矿工接纳。 但通常人们都不愿多支付手续费， 那么究竟应该将Gas Price设置为多少，才可以在正常时间(eg 10 mins)内，确保交易被确认到区域链上呢？ 这个网站可以帮到你。 写这篇文章时候，1 Gwei的Gas Price 就可以确保 交易在50 秒左右被接纳。</p>
+<p>最后这个方案仅适用于页面中文字较固定，不会经常变更的，不然每次变更新增字体都要手动跑一边，类似社交、论坛的项目就不要这样折腾了，还是老老实实的购买字体服务器吧！</p>
+<p>END</p>
 
       
     </div>
@@ -454,11 +447,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+            <a href="/tags/字体库/" rel="tag"># 字体库</a>
           
-            <a href="/tags/Gas/" rel="tag"># Gas</a>
+            <a href="/tags/WebFont/" rel="tag"># WebFont</a>
           
-            <a href="/tags/以太坊Gas/" rel="tag"># 以太坊Gas</a>
+            <a href="/tags/字体压缩/" rel="tag"># 字体压缩</a>
           
         </div>
       
@@ -471,15 +464,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/08/18/一分钟理清GasGas、PriceGas、Limit/" rel="next" title="一分钟理清 Gas/Gas Price/Gas Limit">
+                <i class="fa fa-chevron-left"></i> 一分钟理清 Gas/Gas Price/Gas Limit
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/09/07/如何在vue项目中使用特殊字体库/" rel="prev" title="如何在VUE项目中使用特殊字体库">
-                如何在VUE项目中使用特殊字体库 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -645,7 +638,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gas"><span class="nav-number">1.</span> <span class="nav-text">Gas</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gas-Price"><span class="nav-number">2.</span> <span class="nav-text">Gas Price</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gas-Limit"><span class="nav-number">3.</span> <span class="nav-text">Gas Limit</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：-getFonts-js-获取项目中的字型集"><span class="nav-number">1.</span> <span class="nav-text">第一步： getFonts.js 获取项目中的字型集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；-待续"><span class="nav-number">2.</span> <span class="nav-text">第二步：用获取的字型集生成压缩后的字体库文件，这里使用fontmin的win客户端；#待续</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步：在项目中-font-face声明字体并使用；"><span class="nav-number">3.</span> <span class="nav-text">第三步：在项目中@font-face声明字体并使用；</span></a></li></ol></div>
             
 
           </div>
