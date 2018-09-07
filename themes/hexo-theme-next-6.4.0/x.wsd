@@ -1,0 +1,5 @@
+if (cond1?) then (val1)
+
+else (val2)
+
+endif
