@@ -19,6 +19,8 @@ tags:
 
 ## 第一步：手写一个获取项目中字型集的node代码 getFonts.js
 ```
+#源码地址：https://github.com/YuniorZen/js-tool/blob/master/getFonts.js
+
 let fs=require('fs'),
     files,
     content=[];
@@ -55,10 +57,8 @@ let  walk=function(dir,exclude) {
 // ./src 是项目目录地址，可以是绝对地址也可以是相对的，视getFonts.js运行的目录而定
 ```
 
-## 第二步：用获取的字型集生成压缩的字体库文件，这里使用fontmin的win客户端；-待续
-```
-
-```
+## 第二步：用获取的字型集生成压缩的字体库文件，这里使用[fontmin](http://ecomfe.github.io/fontmin/)的win客户端；
+![fontmin客户端](http://ecomfe.github.io/fontmin/asset/img/app.png)
 
 ## 第三步：把生成的字体库文件放在用到的项目中，@font-face声明字体并使用
 ```
