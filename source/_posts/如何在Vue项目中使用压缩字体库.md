@@ -58,7 +58,7 @@ let  walk=function(dir,exclude) {
 ```
 
 ## 第二步：用获取的字型集生成压缩的字体库文件，这里使用[fontmin](http://ecomfe.github.io/fontmin/)的win客户端；
-![fontmin客户端](http://ecomfe.github.io/fontmin/asset/img/app.png)
+![fontmin客户端](https://yuniorzen.github.io/assets/image/app.png)
 
 ## 第三步：把生成的字体库文件放在用到的项目中，@font-face声明字体并使用
 ```
