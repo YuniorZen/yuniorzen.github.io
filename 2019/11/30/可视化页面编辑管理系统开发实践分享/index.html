@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="背景之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发">
+<meta name="keywords" content="可视化页面编辑,落地页管理,页面组件化,页面可视化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="可视化页面编辑管理系统开发实践分享">
+<meta property="og:url" content="https://yuniorzen.github.io/2019/11/30/可视化页面编辑管理系统开发实践分享/index.html">
+<meta property="og:site_name" content="尤尼奥">
+<meta property="og:description" content="背景之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://yuniorzen.github.io/assets/image/landpage-create-2019-11-30.png">
+<meta property="og:updated_time" content="2019-12-01T15:09:45.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="可视化页面编辑管理系统开发实践分享">
+<meta name="twitter:description" content="背景之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发">
+<meta name="twitter:image" content="https://yuniorzen.github.io/assets/image/landpage-create-2019-11-30.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://yuniorzen.github.io/2019/11/30/可视化页面编辑管理系统开发实践分享/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>可视化页面编辑管理系统开发实践分享 | 尤尼奥</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">尤尼奥</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">高板凳低桌子都是木头</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2019/11/30/可视化页面编辑管理系统开发实践分享/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">可视化页面编辑管理系统开发实践分享
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2019-11-30 22:00:00" itemprop="dateCreated datePublished" datetime="2019-11-30T22:00:00+08:00">2019-11-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2019-12-01 23:09:45" itemprop="dateModified" datetime="2019-12-01T23:09:45+08:00">2019-12-01</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。<br>对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发人员。</p>
+<h2 id="落地页管理系统的需求"><a href="#落地页管理系统的需求" class="headerlink" title="落地页管理系统的需求"></a>落地页管理系统的需求</h2><ul>
+<li>页面的可维护（新建、编辑、删除、状态管理等）。</li>
+<li>页面的常见功能或属性编辑（标题，背景、有效期、微信自定义分享、返回顶部功能等）。</li>
+<li>组成页面的元素组件化，可自由拖拽组装，编辑修改组件属性。</li>
+<li>页面结构数据化，客户端根据数据动态渲染落地页面。</li>
+</ul>
+<h2 id="功能需求的技术实现"><a href="#功能需求的技术实现" class="headerlink" title="功能需求的技术实现"></a>功能需求的技术实现</h2><h3 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h3><p>后端技术栈 node+Koa+mongodb，提供落地页的更删改查API服务、素材的上传更新及有效期定时检测等。<br>前端技术栈 Vue+Vuex+Vue-route+EmenetUI+Axios，开发实现组成页面所需的基础组件及业务营销组件。<br>后端只是简单存储记录，本篇主要分享可视化页面编辑和渲染的前端技术实现。</p>
+<h3 id="项目目录说明"><a href="#项目目录说明" class="headerlink" title="项目目录说明"></a>项目目录说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">src							</span><br><span class="line">|-- App.vue								</span><br><span class="line">|-- main.js                       // 项目入口</span><br><span class="line">|-- components                    // 公共组件目录</span><br><span class="line">|   |-- BreadCrumb                	// 面包屑导航组件</span><br><span class="line">|   |   |-- breadcrumb.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- Carousel                  	// 轮播图组件</span><br><span class="line">|   |   |-- carousel.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- CarouselSet               	// 轮播图属性编辑组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- ContextMenu               	// 右键菜单组件</span><br><span class="line">|   |   |-- contextmenu.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- Event                     	// 事件组件</span><br><span class="line">|   |   |-- event.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- EventSet                  	// 事件属性编辑组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- Goods                     	// 商品组件</span><br><span class="line">|   |   |-- goods.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- GoodsSet                  	// 商品属性编辑组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- HeadInfo                  	// 头部显示组件</span><br><span class="line">|   |   |-- headinfo.scss</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- Picture                   	// 图片组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- picture.scss</span><br><span class="line">|   |-- PictureSet                	// 图片属性编辑组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |-- Video                     	// 视频组件</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- video.scss</span><br><span class="line">|   |-- VideoSet                  	// 视频属性编辑组件</span><br><span class="line">|       |-- index.vue</span><br><span class="line">|-- pages                         // 页面目录</span><br><span class="line">|   |-- LandPage                  	// 落地页渲染页面</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- landpage.scss</span><br><span class="line">|   |-- Login                     	// 登陆页面</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- login.scss</span><br><span class="line">|   |-- PageCreate                	// 落地页创建页面</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- pagecreate.scss</span><br><span class="line">|   |   |-- components            	// 创建页面分成左侧组件列表、中间窗口渲染组件、右侧属性编辑组件</span><br><span class="line">|   |       |-- pageCenter        	// 中间窗口渲染组件</span><br><span class="line">|   |       |   |-- index.vue</span><br><span class="line">|   |       |   |-- pagecenter.scss</span><br><span class="line">|   |       |-- pageRight         	// 右侧属性编辑组件</span><br><span class="line">|   |           |-- index.vue</span><br><span class="line">|   |           |-- pageright.scss</span><br><span class="line">|   |-- PageEditor                	// 落地页编辑页面，共享创建页面，根据路由判断实现不同业务需求</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- pageeditor.scss</span><br><span class="line">|   |-- PageList                  	// 落地页列表页面（新建、编辑、删除、状态管理等）</span><br><span class="line">|   |   |-- index.vue</span><br><span class="line">|   |   |-- pagelist.scss</span><br><span class="line">|   |-- PagePreview               	// 落地页预览页面</span><br><span class="line">|       |-- index.vue</span><br><span class="line">|       |-- pagepreview.scss</span><br><span class="line">|-- assets                        // 资源目录（样式文件）</span><br><span class="line">|   |-- style</span><br><span class="line">|       |-- animate.css</span><br><span class="line">|       |-- common.scss</span><br><span class="line">|       |-- normalize.css</span><br><span class="line">|       |-- var.scss</span><br><span class="line">|-- http                          // http请求的接口与方法</span><br><span class="line">|   |-- index.js</span><br><span class="line">|   |-- request.js</span><br><span class="line">|-- router                        // 页面路由目录</span><br><span class="line">|   |-- index.js</span><br><span class="line">|   |-- permission.js</span><br><span class="line">|-- store                         // vuex状态管理目录</span><br><span class="line">|   |-- actions.js</span><br><span class="line">|   |-- index.js</span><br><span class="line">|   |-- mutations.js</span><br><span class="line">|   |-- state.js</span><br><span class="line">|-- utility                       // 常用工具类函数与静态配置文件目录</span><br><span class="line">	|-- const.js</span><br><span class="line">	|-- filter.js</span><br><span class="line">	|-- index.js</span><br><span class="line">	|-- landpage.js</span><br></pre></td></tr></table></figure>
+<h3 id="页面元素组件化和数据化"><a href="#页面元素组件化和数据化" class="headerlink" title="页面元素组件化和数据化"></a>页面元素组件化和数据化</h3><p>对落地页中的布局和功能需求进行分析总结并抽象出大概元素组件，分为基础组件（图片、视频、轮播图）和营销组件（事件、商品）。<br>落地页面的数据结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">page:&#123;</span><br><span class="line">	//页面名称</span><br><span class="line">	name:&apos;&apos;,</span><br><span class="line">	//页面标题</span><br><span class="line">	title:&apos;&apos;,</span><br><span class="line">	//页面唯一的key</span><br><span class="line">	urlKey:&apos;&apos;,</span><br><span class="line">	//是否需要有效期</span><br><span class="line">	needExpire:false,</span><br><span class="line">	expireDate:&apos;&apos;,  </span><br><span class="line">	//额外功能字段</span><br><span class="line">	extra:&#123;</span><br><span class="line">		//页面背景色</span><br><span class="line">		backgroundColor:&apos;&apos;,</span><br><span class="line">		//是否需要返回顶部按钮</span><br><span class="line">		needBackTop:false,</span><br><span class="line">		backTopImage:&apos;&apos;,</span><br><span class="line">		//是否需要自定义分享</span><br><span class="line">		needShare:false,</span><br><span class="line">		shareText:&apos;&apos;,</span><br><span class="line">		shareImage:&apos;&apos;,</span><br><span class="line">	&#125;,</span><br><span class="line">	//页面中的组件</span><br><span class="line">	components:[</span><br><span class="line">		&#123; type:&apos;Picture&apos;, name:&apos;图片&apos; &#125;</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>落地页的创建页面大致如下，分为左侧元素组件列表、中间实时渲染窗口和右侧组件属性编辑区域。<br><img src="/assets/image/landpage-create-2019-11-30.png" alt="创建页面布局图片"><br>页面中可以有多个元素组件，然后每个元素组件都有自己的特有属性，每个元素组件对应一个属性组件用来编辑该组件的特有属性，在公共组件目录中可以看到对应的Set组件。</p>
+<h3 id="从组件的拖拽到属性编辑与实时渲染"><a href="#从组件的拖拽到属性编辑与实时渲染" class="headerlink" title="从组件的拖拽到属性编辑与实时渲染"></a>从组件的拖拽到属性编辑与实时渲染</h3><blockquote>
+<p>从左侧拖拽组件到中间窗口即为页面中添加一个元素组件，新组件为当前激活组件，右侧区域会根据当前激活组件动态加载对应的属性编辑组件。</p>
+</blockquote>
+<p>当拖拽左侧元素组件时，使用@dragstart事件记录当前拖拽的元素，中间窗口使用@dragover计算正在拖拽元素的位置坐标实现拖拽排序和层级元素的判断，@drop事件中根据之前的记录和判断生成元素组件数据到page.components或元素组件的children层级数组中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 中间窗口的渲染模版代码 --&gt;</span><br><span class="line">&lt;div class=&quot;page-wraper&quot; @dragover=&quot;dragover&quot; @drop=&quot;drop&quot; :style=&quot;style&quot;&gt;</span><br><span class="line">    &lt;div</span><br><span class="line">      v-for=&quot;(component) in components&quot;</span><br><span class="line">      :key=&quot;component.id&quot;</span><br><span class="line">      :class=&quot;`component-wraper`&quot;&gt;</span><br><span class="line">      &lt;!-- 动态组件加载 --&gt;</span><br><span class="line">      &lt;component :class=&quot;`$&#123;component.id==activeComponent.id?&apos;active&apos;:&apos;&apos;&#125; $&#123;relativeComponent&amp;&amp;relativeComponent.id==component.id?(&apos;hover-&apos;+relativeType):&apos;&apos;&#125;`&quot;</span><br><span class="line">        v-bind:is=&quot;component.type&quot;</span><br><span class="line">        v-bind=&quot;component&quot;</span><br><span class="line">        @contextmenu.native.prevent=&quot;contextmenu($event)&quot;</span><br><span class="line">        @mousedown.native=&quot;setActiveComponent(component)&quot;</span><br><span class="line">        @dragover.native.stop=&quot;checkDragOver(component,$event)&quot;&gt;&lt;/component&gt;</span><br><span class="line">        &lt;!-- 动态层级子组件加载 --&gt;</span><br><span class="line">        &lt;component  v-for=&quot;child in component.children&quot;</span><br><span class="line">          :key=&quot;child.id&quot; </span><br><span class="line">          :class=&quot;`component-child $&#123;child.id==activeComponent.id?&apos;active&apos;:&apos;&apos;&#125;`&quot;</span><br><span class="line">          v-bind:is=&quot;child.type&quot;</span><br><span class="line">          v-bind=&quot;child&quot;         </span><br><span class="line">          @contextmenu.native.prevent=&quot;contextmenu($event)&quot;</span><br><span class="line">          @mousedown.native=&quot;setActiveComponent(child)&quot;</span><br><span class="line">          @dragover.native.stop=&quot;checkDragOver(component, $event, child)&quot;&gt;&lt;/component&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>左侧组件到中间窗口组件及右侧属性编辑组件的通信使用vuex的commit触发响应。当编辑右侧属性组件时会触发修改vuex的state,中间窗口组件通过mapState映射当前编辑组件的实时数据，vue会自动响应中间窗口中元素组件的渲染更新。</p>
+<h3 id="动态渲染落地页面"><a href="#动态渲染落地页面" class="headerlink" title="动态渲染落地页面"></a>动态渲染落地页面</h3><p>请求接口获取当前落地页面数据，判断不同属性值添加不同功能，渲染页面的代码类似之前中间窗口的渲染模版代码，没有对应的事件处理。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;page-wraper&quot; :style=&quot;style&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;component-wraper&quot; v-for=&quot;(component) in components&quot; :key=&quot;component.id&quot;&gt;</span><br><span class="line">      &lt;!-- 动态组件加载 --&gt;</span><br><span class="line">      &lt;component v-bind:is=&quot;component.type&quot;  v-bind=&quot;component&quot;&gt; &lt;/component&gt; </span><br><span class="line">        &lt;!-- 动态层级子组件加载 --&gt;</span><br><span class="line">        &lt;component  v-for=&quot;child in component.children&quot; class=&quot;component-child&quot;</span><br><span class="line">          :key=&quot;child.id&quot;         </span><br><span class="line">          v-bind:is=&quot;child.type&quot;</span><br><span class="line">          v-bind=&quot;child&quot;&gt;&lt;/component&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">    &lt;transition name=&quot;el-fade-in&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;backTop&quot; v-if=&quot;scrollTop&amp;&amp;page&amp;&amp;page.extra.needBackTop&quot; @click=&quot;backTop&quot;&gt;</span><br><span class="line">      &lt;img :src=&quot;staticURL+page.extra.backTopImage&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;   </span><br><span class="line">    &lt;/transition&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
+<p>vue内置组件component通过v-bind:is动态加载所需的元素组件,并传递组件数据。<br>元素组件内部获取组件属性并渲染组件，组件会根据环境的不同响应事件，例如：在中间渲染窗口中假如给图片组件添加链接属性，点击并没有响应，但是在落地页面中加载图片组件点击则会响应该事件。</p>
+<h2 id="待完善的功能"><a href="#待完善的功能" class="headerlink" title="待完善的功能"></a>待完善的功能</h2><ul>
+<li>逐步实现事件组件、商品组件等。</li>
+<li>小程序端的渲染实现（数据结构相同，需使用小程序语法实现），目前只实现H5端。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>篇幅有限，细节性问题就不在此描述啦，代码已开源，感兴趣的朋友欢迎 <a href="https://github.com/YuniorZen/landpage" target="_blank" rel="noopener">猛戳围观地址</a>。<br>此次分享属个人拙见，如有不足之处欢迎指正，谢谢。</p>
+<blockquote>
+<p>讨论是绝佳的反思，被别人指出问题正是改进的空间。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/可视化页面编辑/" rel="tag"># 可视化页面编辑</a>
+          
+            <a href="/tags/落地页管理/" rel="tag"># 落地页管理</a>
+          
+            <a href="/tags/页面组件化/" rel="tag"># 页面组件化</a>
+          
+            <a href="/tags/页面可视化/" rel="tag"># 页面可视化</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/27/巧用伪元素放大手机端点击焦点/" rel="next" title="巧用伪元素(:after/before)放大手机端点击焦点">
+                <i class="fa fa-chevron-left"></i> 巧用伪元素(:after/before)放大手机端点击焦点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4" alt="Yunior">
+            
+              <p class="site-author-name" itemprop="name">Yunior</p>
+              <p class="site-description motion-element" itemprop="description">尤尼奥(Yunior)的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">Kategorien</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">Tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/yuniorzen" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://yuniorzen.github.io" target="_blank" title="Blog" rel="external nofollow"><i class="fa fa-fw fa-at"></i>Blog</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#落地页管理系统的需求"><span class="nav-number">2.</span> <span class="nav-text">落地页管理系统的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能需求的技术实现"><span class="nav-number">3.</span> <span class="nav-text">功能需求的技术实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术栈"><span class="nav-number">3.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目目录说明"><span class="nav-number">3.2.</span> <span class="nav-text">项目目录说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面元素组件化和数据化"><span class="nav-number">3.3.</span> <span class="nav-text">页面元素组件化和数据化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从组件的拖拽到属性编辑与实时渲染"><span class="nav-number">3.4.</span> <span class="nav-text">从组件的拖拽到属性编辑与实时渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态渲染落地页面"><span class="nav-number">3.5.</span> <span class="nav-text">动态渲染落地页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待完善的功能"><span class="nav-number">4.</span> <span class="nav-text">待完善的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">他大舅他二舅都是他舅</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

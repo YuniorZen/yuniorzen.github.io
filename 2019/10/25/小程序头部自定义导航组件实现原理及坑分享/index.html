@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为什么使用自定义导航对比默认导航栏，我们会更需要：  统一Android、IOS手机对于页面title的展示样式及位置 更丰富的导航栏定制效果，如添加home图标等 左上角返回事件的监听处理 统一实现双击返回顶部功能  自定义导航组件实现思路 自定义导航组件实现的核心是需要计算导航栏的真实高度  这里以官方文档-&amp;gt;扩展能力中的Navigation组件为例分析实现思路。当使用”navigati">
+<meta name="keywords" content="小程序,自定义导航组件,顶部导航组件实现原理,小程序导航组件的坑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序顶部自定义导航组件实现原理及坑分享">
+<meta property="og:url" content="https://yuniorzen.github.io/2019/10/25/小程序头部自定义导航组件实现原理及坑分享/index.html">
+<meta property="og:site_name" content="尤尼奥">
+<meta property="og:description" content="为什么使用自定义导航对比默认导航栏，我们会更需要：  统一Android、IOS手机对于页面title的展示样式及位置 更丰富的导航栏定制效果，如添加home图标等 左上角返回事件的监听处理 统一实现双击返回顶部功能  自定义导航组件实现思路 自定义导航组件实现的核心是需要计算导航栏的真实高度  这里以官方文档-&amp;gt;扩展能力中的Navigation组件为例分析实现思路。当使用”navigati">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://yuniorzen.github.io/assets/image/status-bar-2019-10-23.png">
+<meta property="og:image" content="https://yuniorzen.github.io/assets/image/ios-android-status-bar-2019-10-23.png">
+<meta property="og:image" content="https://yuniorzen.github.io/assets/image/navigation-video-2019-10-25.gif">
+<meta property="og:updated_time" content="2019-11-30T14:46:41.402Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小程序顶部自定义导航组件实现原理及坑分享">
+<meta name="twitter:description" content="为什么使用自定义导航对比默认导航栏，我们会更需要：  统一Android、IOS手机对于页面title的展示样式及位置 更丰富的导航栏定制效果，如添加home图标等 左上角返回事件的监听处理 统一实现双击返回顶部功能  自定义导航组件实现思路 自定义导航组件实现的核心是需要计算导航栏的真实高度  这里以官方文档-&amp;gt;扩展能力中的Navigation组件为例分析实现思路。当使用”navigati">
+<meta name="twitter:image" content="https://yuniorzen.github.io/assets/image/status-bar-2019-10-23.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://yuniorzen.github.io/2019/10/25/小程序头部自定义导航组件实现原理及坑分享/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>小程序顶部自定义导航组件实现原理及坑分享 | 尤尼奥</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">尤尼奥</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">高板凳低桌子都是木头</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2019/10/25/小程序头部自定义导航组件实现原理及坑分享/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">小程序顶部自定义导航组件实现原理及坑分享
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2019-10-25 18:45:39" itemprop="dateCreated datePublished" datetime="2019-10-25T18:45:39+08:00">2019-10-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2019-11-30 22:46:41" itemprop="dateModified" datetime="2019-11-30T22:46:41+08:00">2019-11-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="为什么使用自定义导航"><a href="#为什么使用自定义导航" class="headerlink" title="为什么使用自定义导航"></a>为什么使用自定义导航</h2><p>对比默认导航栏，我们会更需要：</p>
+<ul>
+<li>统一Android、IOS手机对于页面title的展示样式及位置</li>
+<li>更丰富的导航栏定制效果，如添加home图标等</li>
+<li>左上角返回事件的监听处理</li>
+<li>统一实现双击返回顶部功能</li>
+</ul>
+<h2 id="自定义导航组件实现思路"><a href="#自定义导航组件实现思路" class="headerlink" title="自定义导航组件实现思路"></a>自定义导航组件实现思路</h2><blockquote>
+<p>自定义导航组件实现的核心是需要计算导航栏的真实高度</p>
+</blockquote>
+<p>这里以官方文档-&gt;扩展能力中的Navigation组件为例分析实现思路。当使用”navigationStyle”: “custom”时，默认导航被移除，页面的开始位置变成了屏幕顶部，这时我们需要实现的导航栏是在状态栏下面。</p>
+<blockquote>
+<p>导航栏的真实高度=状态栏高度+导航栏内容。</p>
+</blockquote>
+<p><img src="/assets/image/status-bar-2019-10-23.png" alt="状态栏+导航栏内容图"></p>
+<p><strong><em>使用wx.getSystemInfo获取到statusBarHeight便是导航栏的高度，但是导航栏内容高度呢？</em></strong></p>
+<p>有人可能觉得导航栏内容高度顾名思义就是导航栏内容高度啊，内容撑起还用管嘛！要，必须要！<br><strong>因为右上角胶囊按钮是原生加载的，我们的导航栏内容需要正好贴在胶囊的下方且垂直居中。</strong></p>
+<blockquote>
+<p>导航栏内容高度=（胶囊按钮的顶部距离 - 状态高度）*2 + 胶囊高度</p>
+</blockquote>
+<p><img src="/assets/image/ios-android-status-bar-2019-10-23.png" alt="状态栏+导航栏内容+胶囊图"></p>
+<p>如何计算胶囊的数据呢？幸运的是我们有 <strong>wx.getMenuButtonBoundingClientRect()</strong> 获取胶囊按钮的布局位置信息，那么动态计算导航栏的内容高度就很方便啦。<br>好了，以上就是动态计算的核心思路，我们再来看官方Navigation组件高度是怎么实现的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">page&#123;--height:44px;--right:190rpx;&#125;</span><br><span class="line">.weui-navigation-bar .android&#123;--height:48px;--right:222rpx&#125;</span><br><span class="line">.weui-navigation-bar__inner&#123;</span><br><span class="line">	position:fixed;top:0;left:0;z-index:5001;display:flex;align-items:center;</span><br><span class="line">	height:var(--height);padding-right:var(--right);width:calc(100% - var(--right))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>导航栏内容的高度是通过- -height这个css变量提前声明好的，安卓机型会重新覆盖为新的css变量值，目前没发现有适配问题。</strong><br>官方就是官方啊，具体尺寸都知道，那就不用一番计算周折啦，直接拿来主义即可。<br>导航的布局位置已经搞定啦，剩下就是写具体的内容，不同业务实现需求不同这里就不一一赘述了。</p>
+<h2 id="完善官方顶部导航组件"><a href="#完善官方顶部导航组件" class="headerlink" title="完善官方顶部导航组件"></a>完善官方顶部导航组件</h2><p>本着拿来主义，直接使用官方Navigation组件，但在实际业务开发中还是遇到不少需要自定义的需求，就比如：</p>
+<ul>
+<li>loadding样式没实现</li>
+<li>标题内容超出没有出现省略号</li>
+<li>和原生顶部的样式不兼容，导致单个页面引入时跳转有明显差异出现</li>
+<li>没有双击返回顶部功能开关功能</li>
+<li>引入页面需要获取导航栏的高度，来控制其他元素距离顶部的位置，</li>
+<li>不能根据页面栈数据动态显示隐藏back按钮，</li>
+</ul>
+<p>针对以上需求，我们对官方的组件进行二次完善开发，满足常规的自定义需求绰绰有余，直接引入开箱即用。<br><strong>源码使用示例 <a href="https://github.com/YuniorZen/minicode-debug/tree/master/minicode02" target="_blank" rel="noopener">https://github.com/YuniorZen/minicode-debug/tree/master/minicode02</a> </strong><br><img src="/assets/image/navigation-video-2019-10-25.gif" alt="顶部导航示例"><br><strong> 使用说明 </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/*自定义头部导航组件，基于官方组件Navigation开发。*/</span><br><span class="line"></span><br><span class="line">&lt;navigation-bar title=&quot;会员中心&quot; bindgetBarInfo=&quot;getBarInfo&quot;&gt;&lt;/navigation-bar&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>组件属性列表</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bindgetBarInfo</td>
+<td>function</td>
+<td>组件实例载入页面时触发此事件，首参为event对象，event.detail携带当前导航栏信息，如导航栏高度 event.detail.topBarHeight</td>
+</tr>
+<tr>
+<td>bindback</td>
+<td>function</td>
+<td>点击back按钮触发此事件响应函数</td>
+</tr>
+<tr>
+<td>backImage</td>
+<td>string</td>
+<td>back按钮的图标地址</td>
+</tr>
+<tr>
+<td>homeImage</td>
+<td>string</td>
+<td>home按钮的图标地址  </td>
+</tr>
+<tr>
+<td>ext-class</td>
+<td>string</td>
+<td>添加在组件内部结构的class，可用于修改组件内部的样式</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>导航标题，如果不提供为空</td>
+</tr>
+<tr>
+<td>background</td>
+<td>string</td>
+<td>导航背景色，默认#ffffff</td>
+</tr>
+<tr>
+<td>color</td>
+<td>string</td>
+<td>导航字体颜色</td>
+</tr>
+<tr>
+<td>dbclickBackTop</td>
+<td>boolean</td>
+<td>是否开启双击返回顶部功能，默认true</td>
+</tr>
+<tr>
+<td>border</td>
+<td>boolean</td>
+<td>是否显示顶部导航下边框分割线，默认false</td>
+</tr>
+<tr>
+<td>loading</td>
+<td>boolean</td>
+<td>是否显示标题左侧的loading，默认false</td>
+</tr>
+<tr>
+<td>show</td>
+<td>boolean</td>
+<td>显示隐藏导航，隐藏的时候navigation的高度占位还在,默认true</td>
+</tr>
+<tr>
+<td>left</td>
+<td>boolean</td>
+<td>左侧区域是否使用slot内容，默认false</td>
+</tr>
+<tr>
+<td>center</td>
+<td>boolean</td>
+<td>中间区域是否使用slot内容，默认false</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Slot</strong></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>left</td>
+<td>左侧slot，在back按钮位置显示，当left属性为true的时候有效</td>
+</tr>
+<tr>
+<td>center</td>
+<td>标题slot，在标题位置显示，当center属性为true的时候有效</td>
+</tr>
+</tbody>
+</table>
+<h2 id="自定义顶部导航目前存在的坑"><a href="#自定义顶部导航目前存在的坑" class="headerlink" title="自定义顶部导航目前存在的坑"></a>自定义顶部导航目前存在的坑</h2><ul>
+<li>弹窗的背景蒙层无法覆盖原生胶囊按钮</li>
+<li>页面下拉刷新的圆点会被自定义导航遮盖</li>
+</ul>
+<p>如果要自定义顶部导航，以上问题避免不了，只能忍着接受。<br>目前还没遇到完美的解决方案，针对下拉刷新圆点被遮挡的问题微信官方还在需求开发中，如果你有好的想法欢迎留言反馈，一起学习交流。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/自定义导航组件/" rel="tag"># 自定义导航组件</a>
+          
+            <a href="/tags/顶部导航组件实现原理/" rel="tag"># 顶部导航组件实现原理</a>
+          
+            <a href="/tags/小程序导航组件的坑/" rel="tag"># 小程序导航组件的坑</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/22/小程序取消橡皮筋回弹效果解决方案及坑总结/" rel="next" title="小程序取消下拉橡皮筋回弹效果解决方案及坑总结（持续更新）">
+                <i class="fa fa-chevron-left"></i> 小程序取消下拉橡皮筋回弹效果解决方案及坑总结（持续更新）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/27/巧用伪元素放大手机端点击焦点/" rel="prev" title="巧用伪元素(:after/before)放大手机端点击焦点">
+                巧用伪元素(:after/before)放大手机端点击焦点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4" alt="Yunior">
+            
+              <p class="site-author-name" itemprop="name">Yunior</p>
+              <p class="site-description motion-element" itemprop="description">尤尼奥(Yunior)的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">Kategorien</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">Tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/yuniorzen" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://yuniorzen.github.io" target="_blank" title="Blog" rel="external nofollow"><i class="fa fa-fw fa-at"></i>Blog</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用自定义导航"><span class="nav-number">1.</span> <span class="nav-text">为什么使用自定义导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义导航组件实现思路"><span class="nav-number">2.</span> <span class="nav-text">自定义导航组件实现思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完善官方顶部导航组件"><span class="nav-number">3.</span> <span class="nav-text">完善官方顶部导航组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义顶部导航目前存在的坑"><span class="nav-number">4.</span> <span class="nav-text">自定义顶部导航目前存在的坑</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">他大舅他二舅都是他舅</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
