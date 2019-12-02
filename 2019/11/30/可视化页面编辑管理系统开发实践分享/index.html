@@ -117,7 +117,7 @@
 <meta property="og:description" content="背景之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://yuniorzen.github.io/assets/image/landpage-create-2019-11-30.png">
-<meta property="og:updated_time" content="2019-12-01T15:09:45.186Z">
+<meta property="og:updated_time" content="2019-12-02T03:13:28.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="可视化页面编辑管理系统开发实践分享">
 <meta name="twitter:description" content="背景之前参与开发一个小程序商城，涉及非常多的落地页面需要前端开发维护，又由于小程序包大小限制，不能完成用小程序代码一一实现，所以最后决定把落地页的需求拆成一个单独的产品-落地页管理系统，通过可视化的界面编辑维护小程序和H5的落地页面，落地页面通过获取后台数据动态生成页面内容。对于运营同事来说，在没有前端同事配合的情况下，也可通过可视化的操作来搭建所需的落地页面。解决页面生成的效率问题，同时释放开发">
@@ -370,7 +370,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Updated at: 2019-12-01 23:09:45" itemprop="dateModified" datetime="2019-12-01T23:09:45+08:00">2019-12-01</time>
+                <time title="Updated at: 2019-12-02 11:13:28" itemprop="dateModified" datetime="2019-12-02T11:13:28+08:00">2019-12-02</time>
               
             
           </span>
@@ -425,7 +425,7 @@
 <li>逐步实现事件组件、商品组件等。</li>
 <li>小程序端的渲染实现（数据结构相同，需使用小程序语法实现），目前只实现H5端。</li>
 </ul>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>篇幅有限，细节性问题就不在此描述啦，代码已开源，感兴趣的朋友欢迎 <a href="https://github.com/YuniorZen/landpage" target="_blank" rel="noopener">猛戳围观地址</a>。<br>此次分享属个人拙见，如有不足之处欢迎指正，谢谢。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>篇幅有限，细节性问题就不在此描述啦，代码已开源，感兴趣的朋友欢迎 <a href="https://github.com/YuniorZen/landpage" target="_blank" rel="noopener">猛戳围观地址</a>。<br>此次分享属个人拙见，如有不足之处欢迎指正，谢谢。</p>
 <blockquote>
 <p>讨论是绝佳的反思，被别人指出问题正是改进的空间。</p>
 </blockquote>
@@ -666,7 +666,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#落地页管理系统的需求"><span class="nav-number">2.</span> <span class="nav-text">落地页管理系统的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能需求的技术实现"><span class="nav-number">3.</span> <span class="nav-text">功能需求的技术实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术栈"><span class="nav-number">3.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目目录说明"><span class="nav-number">3.2.</span> <span class="nav-text">项目目录说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面元素组件化和数据化"><span class="nav-number">3.3.</span> <span class="nav-text">页面元素组件化和数据化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从组件的拖拽到属性编辑与实时渲染"><span class="nav-number">3.4.</span> <span class="nav-text">从组件的拖拽到属性编辑与实时渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态渲染落地页面"><span class="nav-number">3.5.</span> <span class="nav-text">动态渲染落地页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待完善的功能"><span class="nav-number">4.</span> <span class="nav-text">待完善的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#落地页管理系统的需求"><span class="nav-number">2.</span> <span class="nav-text">落地页管理系统的需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能需求的技术实现"><span class="nav-number">3.</span> <span class="nav-text">功能需求的技术实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#技术栈"><span class="nav-number">3.1.</span> <span class="nav-text">技术栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#项目目录说明"><span class="nav-number">3.2.</span> <span class="nav-text">项目目录说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面元素组件化和数据化"><span class="nav-number">3.3.</span> <span class="nav-text">页面元素组件化和数据化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从组件的拖拽到属性编辑与实时渲染"><span class="nav-number">3.4.</span> <span class="nav-text">从组件的拖拽到属性编辑与实时渲染</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态渲染落地页面"><span class="nav-number">3.5.</span> <span class="nav-text">动态渲染落地页面</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#待完善的功能"><span class="nav-number">4.</span> <span class="nav-text">待完善的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">5.</span> <span class="nav-text">最后</span></a></li></ol></div>
             
 
           </div>
