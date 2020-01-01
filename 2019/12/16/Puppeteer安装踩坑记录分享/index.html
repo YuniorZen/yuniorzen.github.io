@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="最近闲来无事，决定写个爬虫玩，用request+cheerio的方式已没有新鲜感，那试试谷歌推出的神器Puppeteer。  生成页面的屏幕截图和PDF。 抓取SPA并生成预先呈现的内容（即“SSR”）。 自动表单提交，UI测试，键盘输入等。 创建一个最新的自动化测试环境。使用最新的的JavaScript和浏览器功能，直接在最新版本的Chrome浏览器中运行测试。 捕获您网站的时间线跟踪，以帮助诊">
+<meta name="keywords" content="Puppeteer,node安装puppeteer,centeros安装puppeteer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CenterOS安装Puppeteer踩坑记录分享">
+<meta property="og:url" content="https://yuniorzen.github.io/2019/12/16/Puppeteer安装踩坑记录分享/index.html">
+<meta property="og:site_name" content="尤尼奥">
+<meta property="og:description" content="最近闲来无事，决定写个爬虫玩，用request+cheerio的方式已没有新鲜感，那试试谷歌推出的神器Puppeteer。  生成页面的屏幕截图和PDF。 抓取SPA并生成预先呈现的内容（即“SSR”）。 自动表单提交，UI测试，键盘输入等。 创建一个最新的自动化测试环境。使用最新的的JavaScript和浏览器功能，直接在最新版本的Chrome浏览器中运行测试。 捕获您网站的时间线跟踪，以帮助诊">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2020-01-01T05:40:17.001Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CenterOS安装Puppeteer踩坑记录分享">
+<meta name="twitter:description" content="最近闲来无事，决定写个爬虫玩，用request+cheerio的方式已没有新鲜感，那试试谷歌推出的神器Puppeteer。  生成页面的屏幕截图和PDF。 抓取SPA并生成预先呈现的内容（即“SSR”）。 自动表单提交，UI测试，键盘输入等。 创建一个最新的自动化测试环境。使用最新的的JavaScript和浏览器功能，直接在最新版本的Chrome浏览器中运行测试。 捕获您网站的时间线跟踪，以帮助诊">
+
+
+
+
+
+
+  <link rel="canonical" href="https://yuniorzen.github.io/2019/12/16/Puppeteer安装踩坑记录分享/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CenterOS安装Puppeteer踩坑记录分享 | 尤尼奥</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">尤尼奥</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">高板凳低桌子都是木头</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2019/12/16/Puppeteer安装踩坑记录分享/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CenterOS安装Puppeteer踩坑记录分享
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2019-12-16 16:27:30" itemprop="dateCreated datePublished" datetime="2019-12-16T16:27:30+08:00">2019-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2020-01-01 13:40:17" itemprop="dateModified" datetime="2020-01-01T13:40:17+08:00">2020-01-01</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/NodeJS/" itemprop="url" rel="index"><span itemprop="name">NodeJS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近闲来无事，决定写个爬虫玩，用request+cheerio的方式已没有新鲜感，那试试谷歌推出的神器<strong><em>Puppeteer</em></strong>。</p>
+<ul>
+<li>生成页面的屏幕截图和PDF。</li>
+<li>抓取SPA并生成预先呈现的内容（即“SSR”）。</li>
+<li>自动表单提交，UI测试，键盘输入等。</li>
+<li>创建一个最新的自动化测试环境。使用最新的的JavaScript和浏览器功能，直接在最新版本的Chrome浏览器中运行测试。</li>
+<li>捕获您网站的时间线跟踪，以帮助诊断性能问题。</li>
+</ul>
+<p>你可以在浏览器中手动完成的大部分事情都可以使用Puppteer完成。但是今天不说Puppeteer怎么入门，来说说我是怎么被它无情折磨的。</p>
+<h2 id="安装步骤"><a href="#安装步骤" class="headerlink" title="安装步骤"></a>安装步骤</h2><blockquote>
+<p>全局安装  #方便其余项目使用</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g puppeteer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建test.js，编码实现生成页面截图</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const puppeteer = require(&apos;puppeteer&apos;);</span><br><span class="line">(async () =&gt; &#123;</span><br><span class="line">  const browser = await puppeteer.launch();</span><br><span class="line">  const page = await browser.newPage();</span><br><span class="line">  await page.goto(&apos;https://baidu.com&apos;);</span><br><span class="line">  await page.screenshot(&#123;path: &apos;baidu.png&apos;&#125;);</span><br><span class="line">  await browser.close();</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>执行生成截图</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node test.js</span><br></pre></td></tr></table></figure>
+<p>然后我们看下，ok，目录下生成一张baidu.png!!!<br><strong><em> 这是想象的完美流程，这张截图我到现在还没有见到，且听我细细道来。</em></strong> </p>
+<h2 id="安装Puppeteer的坑"><a href="#安装Puppeteer的坑" class="headerlink" title="安装Puppeteer的坑"></a>安装Puppeteer的坑</h2><blockquote>
+<p>全局安装puppeteer</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g puppeteer</span><br></pre></td></tr></table></figure>
+<p>安装这个puppeteer本地很快1分钟的样子，无奈服务器网络问题安装到40分钟时不动了，出于信任我又等了它十分钟！最后还是没有成功，<strong>卧槽 无情！</strong></p>
+<blockquote>
+<p>然后切换国内淘宝镜像,118mb,很快1分钟安装完成，</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br><span class="line">cnpm install -g puppeteer</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>高高兴兴的执行node test.js</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(node:20042) UnhandledPromiseRejectionWarning: Error: Failed to launch chrome!</span><br><span class="line">xxx/xxx/node_modules/_puppeteer@1.19.0@puppeteer/.local-chromium/linux-674921/chrome-linux/chrome: error while loading shared libraries: libatk-bridge-2.0.so.0: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<p><strong>卧槽 无情！</strong> Chromium执行需要安装特定依赖，搜索一番去官方找了下依赖。</p>
+<blockquote>
+<p>执行yum install安装依赖库，拭目以待吧！</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install pango.x86_64 libXcomposite.x86_64 libXcursor.x86_64 libXdamage.x86_64 libXext.x86_64 libXi.x86_64 libXtst.x86_64 cups-libs.x86_64 libXScrnSaver.x86_64 libXrandr.x86_64 GConf2.x86_64 alsa-lib.x86_64 atk.x86_64 gtk3.x86_64 -y</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">No package gtk3.x86_64 available.</span><br></pre></td></tr></table></figure>
+<p><strong>卧槽 无情！</strong> 我又搜索了很久，各种大佬各种说，复制黏贴一把梭，最后还是无情！<br><strong><em> 此时已是凌晨2点，算了还是睡觉吧 </em></strong></p>
+<hr>
+<p>两天后点一个夜里… 我又没事啦，想起了无情，操起键盘又是一堆检索！</p>
+<blockquote>
+<p>无果，我又运行了下 node test.js</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">libatk-bridge-2.0.so.0: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>回到问题本身，我又换回了检索词 <strong><em> libatk-bridge-2.0.so.0 </em></strong> 再次在知识的海洋里遨游<br>又过了许久我翻了到一篇，也是归因安装依赖的问题，只不过依赖是其它应用copy过来，这不正符合no package的我嘛，又是一顿梭！！！</p>
+<blockquote>
+<p>检测缺失的依赖包</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ldd chrome | grep not</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 检测结果</span><br><span class="line">libatk-bridge-2.0.so.0 =&gt; not found</span><br><span class="line">libgtk-3.so.0 =&gt; not found</span><br><span class="line">libgdk-3.so.0 =&gt; not found </span><br><span class="line">libGL.so.1 =&gt; not found</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查找云端哪些软件下面包含对应的依赖包</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum provides libatk-bridge-2.0.so.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">firefox-60.1.0-6.el6.centos.i686 : Mozilla Firefox Web browser</span><br><span class="line">Repo        : updates</span><br><span class="line">Matched from:</span><br><span class="line">Filename    : /usr/lib/firefox/bundled/lib/libatk-bridge-2.0.so.0</span><br><span class="line"></span><br><span class="line">#这个就是我们要找的可用的依赖包</span><br><span class="line">firefox-60.1.0-6.el6.centos.x86_64 : Mozilla Firefox Web browser</span><br><span class="line">Repo        : installed// 已安装状态</span><br><span class="line">Matched from:</span><br><span class="line">Filename    : /usr/lib64/firefox/bundled/lib64/libatk-bridge-2.0.so.0</span><br></pre></td></tr></table></figure>
+<p><strong><em>注意：如果不是已安装状态，要先安装一下对应的软件名</em></strong></p>
+<p>找到对应的依赖包后，将依赖包复制或映射到对应的动态共享库目录中，一般是/usr/lib64/目录，复制或映射可以。</p>
+<blockquote>
+<p>复制包到 /usr/lib64/</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp /usr/lib64/firefox/bundled/lib64/libatk-bridge-2.0.so.0  /usr/lib64/</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上，依次安装其它依赖后，再一次满怀期待的执行 node test.js</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(node:32351) UnhandledPromiseRejectionWarning: Error: Failed to launch chrome!</span><br><span class="line">/usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome: /lib64/libc.so.6: version `GLIBC_2.14&apos; not found (required by /usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome)</span><br><span class="line">/usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome: /lib64/libc.so.6: version `GLIBC_2.15&apos; not found (required by /usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome)</span><br><span class="line">/usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome: /lib64/libc.so.6: version `GLIBC_2.16&apos; not found (required by /usr/local/lib/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome)</span><br></pre></td></tr></table></figure>
+<p><strong> 卧槽 无情！</strong> 了解到这是chrome运行需要更高版本libc，涉及底层库升级，有反馈升级不当导致很多系统命令不可用的风险！<strong> 吓到睡觉！！！</strong> </p>
+<hr>
+<p>次日，我又想起了无情，再次检索一番，得知需要更新glibc到2.16，复制黏贴又是一梭。</p>
+<blockquote>
+<p>下载，解压，编译等操作（用 root 全权操作，最后两步用时比较久）</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https://ftp.gnu.org/gnu/glibc/glibc-2.16.0.tar.gz</span><br><span class="line">tar -zxvf glibc-2.16.0.tar.gz</span><br><span class="line">cd glibc-2.16.0 </span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">../configure --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin</span><br><span class="line">make -j 8</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看安装后的glibc有没有更新到2.16</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">strings /lib64/libc.so.6 | grep GLIBC</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">GLIBC_2.14</span><br><span class="line">GLIBC_2.15</span><br><span class="line">GLIBC_2.16</span><br><span class="line">GLIBC_PRIVATE</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>更新完毕，最后一次执行node test.js</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">symbol lookup error: /usr/lib64/firefox/bundled/lib64/libcairo-gobject.so.2: </span><br><span class="line">undefined symbol: cairo_region_destroy</span><br></pre></td></tr></table></figure>
+<p><strong><em> 卧槽，无情！睡觉去啦！ </em></strong></p>
+<hr>
+<p>待修复bug…</p>
+<p>以下是假如修复啦：<br><strong><em> 卧槽，终于跑起来啦！ </em></strong> 为自己鼓掌，好在能运行起来，真是折腾。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>如上分享，希望能帮助到遇到同样场景的你，无情就让我一人承受吧。<br>很多看起来正常的流程就是会出现你意想不到的意外，人生亦然，能做的只有坚持不懈的去寻找答案和解决问题，当然主要还是对linux不熟悉太菜，这又给我增加了学习linux的理由。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Puppeteer/" rel="tag"># Puppeteer</a>
+          
+            <a href="/tags/node安装puppeteer/" rel="tag"># node安装puppeteer</a>
+          
+            <a href="/tags/centeros安装puppeteer/" rel="tag"># centeros安装puppeteer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/30/可视化页面编辑管理系统开发实践分享/" rel="next" title="可视化页面编辑管理系统开发实践分享">
+                <i class="fa fa-chevron-left"></i> 可视化页面编辑管理系统开发实践分享
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/01/小程序分享之：房价十年/" rel="prev" title="小程序分享之跨时代产品：房价十年">
+                小程序分享之跨时代产品：房价十年 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4" alt="Yunior">
+            
+              <p class="site-author-name" itemprop="name">Yunior</p>
+              <p class="site-description motion-element" itemprop="description">尤尼奥(Yunior)的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">Kategorien</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">Tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/yuniorzen" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://yuniorzen.github.io" target="_blank" title="Blog" rel="external nofollow"><i class="fa fa-fw fa-at"></i>Blog</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装步骤"><span class="nav-number">1.</span> <span class="nav-text">安装步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Puppeteer的坑"><span class="nav-number">2.</span> <span class="nav-text">安装Puppeteer的坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">3.</span> <span class="nav-text">最后</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">他大舅他二舅都是他舅</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
