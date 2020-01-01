@@ -43,7 +43,7 @@ const puppeteer = require('puppeteer');
 node test.js
 ```
 然后我们看下，ok，目录下生成一张baidu.png!!!
-*** 这是想象的完美流程，见到那张截图是三天之后的事情，且听我细细道来。*** 
+*** 这是想象的完美流程，这张截图我到现在还没有见到，且听我细细道来。*** 
 
 ## 安装Puppeteer的坑
 > 全局安装puppeteer
