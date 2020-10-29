@@ -78,5 +78,5 @@ theme: hexo-theme-next-6.4.0
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/YuniorZen/yuniorzen.github.io.git
+  repo: git@github.com:YuniorZen/yuniorzen.github.io.git
   branch: master
