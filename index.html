@@ -136,6 +136,7 @@
 </script>
 
   <title>尤尼奥</title>
+  <meta name="referrer" content="never">
   
 
 
@@ -309,6 +310,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/微信小程序新能力URLScheme/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/10/微信小程序新能力URLScheme/" itemprop="url">
+                  微信小程序新能力：URL Scheme，可从短信跳转小程序
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2021-03-10 15:16:30 / Updated at: 15:48:59" itemprop="dateCreated datePublished" datetime="2021-03-10T15:16:30+08:00">2021-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近小程序上线了一个超级流量的新入口：URL Scheme。通过小程序页面的URL Scheme，可以在短信、邮件或微信外部的网页中打开小程序。</p>
+<p>那么如何实现呢？<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html" target="_blank" rel="noopener">官方文档</a>已经写的很清楚啦，这里简单介绍一下。</p>
+<p><strong>首先，获取URL Scheme</strong>，通过服务端接口可以获取打开小程序任意页面的URL Scheme，支持生成到期失效和永久有效的URL Scheme。<br><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7WIdibfwnmPDsBQGicsZQK2CThM8hFx3zNicCbFUiaUiaZpbdbscA6oZSD0BLAXgClZ9KDa8XLKrq0uIw/0?wx_fmt=png" alt=""></p>
+<p>然后，通过短信群发平台将获取的URL Scheme + 营销文案发送到用户的手机上。</p>
+<p>最后，用户收到短信后，直接点击URL Scheme唤起微信，跳转到对应小程序页面，就是这么简单。<br>除此之外，还可以通过邮件或外部浏览器打开跳转小程序。</p>
+<p>由于部分操作系统仍不支持直接识别URL Scheme，因此直接将Scheme发送给用户可能存在无法打开小程序的情况。<br>为此，我们可以先准备一个H5页面，再从H5页面跳转到URL Scheme实现打开小程序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">location.href = &apos;weixin://dl/business/?ticket= *TICKET*&apos;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">H5的示例代码我已经更新到Github</a>，可以复用起来，基于<a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/staticstorage/jump-miniprogram.html" target="_blank" rel="noopener">官方的案例</a>做了些改动，增加PC端打开时生成二维码方便手机扫码使用。</p>
+<p>这次新能力的更新将使微信小程序不再局限于微信内部的流量，天花板被掀开啦。<br>而且短信和邮件营销的触达成本非常低，营销成本的压低也会催生出很多新的流量玩法，我们敬请期待吧。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/引导添加到我的小程序组件/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -434,171 +600,6 @@
 <p><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdhpJpH3c37fdibicgnasWhJJpVZBdD8IZPLicdGcHTHD33fEwykhGDxO0Q/0?wx_fmt=png" alt=" "></p>
 <h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>上线2天后，发现添加人数相比之前是倍数增长，这也就验证了产品本身其实没有什么大问题，大多数用户是不知道这个功能，或者说用户的行为需要我们去小小的引导一下，就能产生意想不到的收获。</p>
 <p>组件源码在<a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">minicode-debug</a>项目的<code>/add-tip</code>目录下，可直接拿去复用或者参照修改。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/微信小程序新能力URLScheme/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yunior">
-      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
-      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="尤尼奥">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2021/03/10/微信小程序新能力URLScheme/" itemprop="url">
-                  微信小程序新能力：URL Scheme，可从短信跳转小程序
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2021-03-10 15:16:30 / Updated at: 15:48:59" itemprop="dateCreated datePublished" datetime="2021-03-10T15:16:30+08:00">2021-03-10</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近小程序上线了一个超级流量的新入口：URL Scheme。通过小程序页面的URL Scheme，可以在短信、邮件或微信外部的网页中打开小程序。</p>
-<p>那么如何实现呢？<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html" target="_blank" rel="noopener">官方文档</a>已经写的很清楚啦，这里简单介绍一下。</p>
-<p><strong>首先，获取URL Scheme</strong>，通过服务端接口可以获取打开小程序任意页面的URL Scheme，支持生成到期失效和永久有效的URL Scheme。<br><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7WIdibfwnmPDsBQGicsZQK2CThM8hFx3zNicCbFUiaUiaZpbdbscA6oZSD0BLAXgClZ9KDa8XLKrq0uIw/0?wx_fmt=png" alt=""></p>
-<p>然后，通过短信群发平台将获取的URL Scheme + 营销文案发送到用户的手机上。</p>
-<p>最后，用户收到短信后，直接点击URL Scheme唤起微信，跳转到对应小程序页面，就是这么简单。<br>除此之外，还可以通过邮件或外部浏览器打开跳转小程序。</p>
-<p>由于部分操作系统仍不支持直接识别URL Scheme，因此直接将Scheme发送给用户可能存在无法打开小程序的情况。<br>为此，我们可以先准备一个H5页面，再从H5页面跳转到URL Scheme实现打开小程序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">location.href = &apos;weixin://dl/business/?ticket= *TICKET*&apos;</span><br></pre></td></tr></table></figure></p>
-<p><a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">H5的示例代码我已经更新到Github</a>，可以复用起来，基于<a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/staticstorage/jump-miniprogram.html" target="_blank" rel="noopener">官方的案例</a>做了些改动，增加PC端打开时生成二维码方便手机扫码使用。</p>
-<p>这次新能力的更新将使微信小程序不再局限于微信内部的流量，天花板被掀开啦。<br>而且短信和邮件营销的触达成本非常低，营销成本的压低也会催生出很多新的流量玩法，我们敬请期待吧。</p>
 
           
         
