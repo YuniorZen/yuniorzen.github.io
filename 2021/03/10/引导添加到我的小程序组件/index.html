@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="出发点开发了一个小程序，经过一段时间的观察，发现访问人数和添加到我的小程序的数据差异比较大，我想可能存在2种可能：   用户不清楚有添加到我的小程序功能 本身产品做的不够好，不愿意添加   那为了验证可能性，我就做了这个引导添加的提示组件，组件开发非常简单，这里分享给大家。 代码实现 制作一张gif动图或者静态提示图片也行  wxml布局如下 123456789&amp;lt;view wx:if=&amp;qu">
+<meta name="keywords" content="小程序,组件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="引导添加到我的小程序组件开发">
+<meta property="og:url" content="https://yuniorzen.github.io/2021/03/10/引导添加到我的小程序组件/index.html">
+<meta property="og:site_name" content="尤尼奥">
+<meta property="og:description" content="出发点开发了一个小程序，经过一段时间的观察，发现访问人数和添加到我的小程序的数据差异比较大，我想可能存在2种可能：   用户不清楚有添加到我的小程序功能 本身产品做的不够好，不愿意添加   那为了验证可能性，我就做了这个引导添加的提示组件，组件开发非常简单，这里分享给大家。 代码实现 制作一张gif动图或者静态提示图片也行  wxml布局如下 123456789&amp;lt;view wx:if=&amp;qu">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_gif/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdB8MUwcn48ZIKicr9uYI8r2jp0cYEz855mEnnVPmowIPbd3QGAnyD9oQ/0?wx_fmt=gif">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdhpJpH3c37fdibicgnasWhJJpVZBdD8IZPLicdGcHTHD33fEwykhGDxO0Q/0?wx_fmt=png">
+<meta property="og:updated_time" content="2021-03-10T07:45:13.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="引导添加到我的小程序组件开发">
+<meta name="twitter:description" content="出发点开发了一个小程序，经过一段时间的观察，发现访问人数和添加到我的小程序的数据差异比较大，我想可能存在2种可能：   用户不清楚有添加到我的小程序功能 本身产品做的不够好，不愿意添加   那为了验证可能性，我就做了这个引导添加的提示组件，组件开发非常简单，这里分享给大家。 代码实现 制作一张gif动图或者静态提示图片也行  wxml布局如下 123456789&amp;lt;view wx:if=&amp;qu">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_gif/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdB8MUwcn48ZIKicr9uYI8r2jp0cYEz855mEnnVPmowIPbd3QGAnyD9oQ/0?wx_fmt=gif">
+
+
+
+
+
+
+  <link rel="canonical" href="https://yuniorzen.github.io/2021/03/10/引导添加到我的小程序组件/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>引导添加到我的小程序组件开发 | 尤尼奥</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">尤尼奥</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <h1 class="site-subtitle" itemprop="description">高板凳低桌子都是木头</h1>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-首页">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-归档">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-标签">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-分类">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-关于">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/引导添加到我的小程序组件/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">引导添加到我的小程序组件开发
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2021-03-10 15:16:30 / Updated at: 15:45:13" itemprop="dateCreated datePublished" datetime="2021-03-10T15:16:30+08:00">2021-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="出发点"><a href="#出发点" class="headerlink" title="出发点"></a>出发点</h2><p>开发了一个小程序，经过一段时间的观察，发现访问人数和添加到我的小程序的数据差异比较大，我想可能存在2种可能：</p>
+<blockquote>
+<ol>
+<li>用户不清楚有添加到我的小程序功能</li>
+<li>本身产品做的不够好，不愿意添加</li>
+</ol>
+</blockquote>
+<p>那为了验证可能性，我就做了这个引导添加的提示组件，组件开发非常简单，这里分享给大家。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><ol>
+<li><p>制作一张gif动图或者静态提示图片也行<br><img src="https://mmbiz.qpic.cn/mmbiz_gif/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdB8MUwcn48ZIKicr9uYI8r2jp0cYEz855mEnnVPmowIPbd3QGAnyD9oQ/0?wx_fmt=gif" alt=""></p>
+</li>
+<li><p>wxml布局如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:if=&quot;&#123;&#123;showTip&#125;&#125;&quot; class=&quot;tip-wraper&quot;&gt;</span><br><span class="line">  &lt;image class=&quot;tip-gif&quot; </span><br><span class="line">  mode=&quot;widthFix&quot; </span><br><span class="line">  src=&quot;./images/add_tip.gif&quot;&gt;&lt;/image&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;image bindtap=&quot;closeTip&quot;</span><br><span class="line">  class=&quot;tip-close&quot; </span><br><span class="line">  src=&apos;./images/close.png&apos;&gt;&lt;/image&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>js代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">    // 初始化关注提示</span><br><span class="line">    initTip() &#123;</span><br><span class="line">        let showTip = wx.getStorageSync(&apos;showTip&apos;)</span><br><span class="line">        this.setData(&#123;</span><br><span class="line">            showTip: typeof showTip==&apos;boolean&apos;?showTip:true</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    // 关闭提示</span><br><span class="line">    closeTip() &#123;</span><br><span class="line">        wx.setStorageSync(&apos;showTip&apos;, false)</span><br><span class="line">        this.setData(&#123;</span><br><span class="line">            showTip: false</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">lifetimes:&#123;</span><br><span class="line">    attached:function()&#123;</span><br><span class="line">        this.initTip()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdhpJpH3c37fdibicgnasWhJJpVZBdD8IZPLicdGcHTHD33fEwykhGDxO0Q/0?wx_fmt=png" alt=" "></p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>上线2天后，发现添加人数相比之前是倍数增长，这也就验证了产品本身其实没有什么大问题，大多数用户是不知道这个功能，或者说用户的行为需要我们去小小的引导一下，就能产生意想不到的收获。</p>
+<p>组件源码在<a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">minicode-debug</a>项目的<code>/add-tip</code>目录下，可直接拿去复用或者参照修改。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+            <a href="/tags/组件/" rel="tag"># 组件</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/10/微信小程序新能力URLScheme/" rel="next" title="微信小程序新能力：URL Scheme，可从短信跳转小程序">
+                <i class="fa fa-chevron-left"></i> 微信小程序新能力：URL Scheme，可从短信跳转小程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4" alt="Yunior">
+            
+              <p class="site-author-name" itemprop="name">Yunior</p>
+              <p class="site-description motion-element" itemprop="description">尤尼奥(Yunior)的个人博客</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">Artikel</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">Kategorien</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">Tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/yuniorzen" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://yuniorzen.github.io" target="_blank" title="Blog" rel="external nofollow"><i class="fa fa-fw fa-at"></i>Blog</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#出发点"><span class="nav-number">1.</span> <span class="nav-text">出发点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码实现"><span class="nav-number">2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结果"><span class="nav-number">3.</span> <span class="nav-text">结果</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">他大舅他二舅都是他舅</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

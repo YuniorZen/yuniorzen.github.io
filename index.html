@@ -309,6 +309,349 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/引导添加到我的小程序组件/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/10/引导添加到我的小程序组件/" itemprop="url">
+                  引导添加到我的小程序组件开发
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2021-03-10 15:16:30 / Updated at: 15:45:13" itemprop="dateCreated datePublished" datetime="2021-03-10T15:16:30+08:00">2021-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="出发点"><a href="#出发点" class="headerlink" title="出发点"></a>出发点</h2><p>开发了一个小程序，经过一段时间的观察，发现访问人数和添加到我的小程序的数据差异比较大，我想可能存在2种可能：</p>
+<blockquote>
+<ol>
+<li>用户不清楚有添加到我的小程序功能</li>
+<li>本身产品做的不够好，不愿意添加</li>
+</ol>
+</blockquote>
+<p>那为了验证可能性，我就做了这个引导添加的提示组件，组件开发非常简单，这里分享给大家。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><ol>
+<li><p>制作一张gif动图或者静态提示图片也行<br><img src="https://mmbiz.qpic.cn/mmbiz_gif/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdB8MUwcn48ZIKicr9uYI8r2jp0cYEz855mEnnVPmowIPbd3QGAnyD9oQ/0?wx_fmt=gif" alt=""></p>
+</li>
+<li><p>wxml布局如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;view wx:if=&quot;&#123;&#123;showTip&#125;&#125;&quot; class=&quot;tip-wraper&quot;&gt;</span><br><span class="line">  &lt;image class=&quot;tip-gif&quot; </span><br><span class="line">  mode=&quot;widthFix&quot; </span><br><span class="line">  src=&quot;./images/add_tip.gif&quot;&gt;&lt;/image&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;image bindtap=&quot;closeTip&quot;</span><br><span class="line">  class=&quot;tip-close&quot; </span><br><span class="line">  src=&apos;./images/close.png&apos;&gt;&lt;/image&gt;</span><br><span class="line">&lt;/view&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>js代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">methods: &#123;</span><br><span class="line">    // 初始化关注提示</span><br><span class="line">    initTip() &#123;</span><br><span class="line">        let showTip = wx.getStorageSync(&apos;showTip&apos;)</span><br><span class="line">        this.setData(&#123;</span><br><span class="line">            showTip: typeof showTip==&apos;boolean&apos;?showTip:true</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;,</span><br><span class="line">    // 关闭提示</span><br><span class="line">    closeTip() &#123;</span><br><span class="line">        wx.setStorageSync(&apos;showTip&apos;, false)</span><br><span class="line">        this.setData(&#123;</span><br><span class="line">            showTip: false</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br><span class="line">lifetimes:&#123;</span><br><span class="line">    attached:function()&#123;</span><br><span class="line">        this.initTip()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7bXFRR8aw5dvPuoZ8zNUrdhpJpH3c37fdibicgnasWhJJpVZBdD8IZPLicdGcHTHD33fEwykhGDxO0Q/0?wx_fmt=png" alt=" "></p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>上线2天后，发现添加人数相比之前是倍数增长，这也就验证了产品本身其实没有什么大问题，大多数用户是不知道这个功能，或者说用户的行为需要我们去小小的引导一下，就能产生意想不到的收获。</p>
+<p>组件源码在<a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">minicode-debug</a>项目的<code>/add-tip</code>目录下，可直接拿去复用或者参照修改。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2021/03/10/微信小程序新能力URLScheme/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Yunior">
+      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="尤尼奥">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/03/10/微信小程序新能力URLScheme/" itemprop="url">
+                  微信小程序新能力：URL Scheme，可从短信跳转小程序
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2021-03-10 15:16:30 / Updated at: 15:48:59" itemprop="dateCreated datePublished" datetime="2021-03-10T15:16:30+08:00">2021-03-10</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">in</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近小程序上线了一个超级流量的新入口：URL Scheme。通过小程序页面的URL Scheme，可以在短信、邮件或微信外部的网页中打开小程序。</p>
+<p>那么如何实现呢？<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/url-scheme.html" target="_blank" rel="noopener">官方文档</a>已经写的很清楚啦，这里简单介绍一下。</p>
+<p><strong>首先，获取URL Scheme</strong>，通过服务端接口可以获取打开小程序任意页面的URL Scheme，支持生成到期失效和永久有效的URL Scheme。<br><img src="https://mmbiz.qpic.cn/mmbiz_png/1pod2O2UeC7WIdibfwnmPDsBQGicsZQK2CThM8hFx3zNicCbFUiaUiaZpbdbscA6oZSD0BLAXgClZ9KDa8XLKrq0uIw/0?wx_fmt=png" alt=""></p>
+<p>然后，通过短信群发平台将获取的URL Scheme + 营销文案发送到用户的手机上。</p>
+<p>最后，用户收到短信后，直接点击URL Scheme唤起微信，跳转到对应小程序页面，就是这么简单。<br>除此之外，还可以通过邮件或外部浏览器打开跳转小程序。</p>
+<p>由于部分操作系统仍不支持直接识别URL Scheme，因此直接将Scheme发送给用户可能存在无法打开小程序的情况。<br>为此，我们可以先准备一个H5页面，再从H5页面跳转到URL Scheme实现打开小程序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">location.href = &apos;weixin://dl/business/?ticket= *TICKET*&apos;</span><br></pre></td></tr></table></figure></p>
+<p><a href="https://github.com/YuniorZen/minicode-debug" target="_blank" rel="noopener">H5的示例代码我已经更新到Github</a>，可以复用起来，基于<a href="https://developers.weixin.qq.com/miniprogram/dev/wxcloud/guide/staticstorage/jump-miniprogram.html" target="_blank" rel="noopener">官方的案例</a>做了些改动，增加PC端打开时生成二维码方便手机扫码使用。</p>
+<p>这次新能力的更新将使微信小程序不再局限于微信内部的流量，天花板被掀开啦。<br>而且短信和邮件营销的触达成本非常低，营销成本的压低也会催生出很多新的流量玩法，我们敬请期待吧。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2020/10/28/收集整理好用的工具资源库/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -439,181 +782,6 @@
 <p><a href="https://github.com/soimort/you-get" target="_blank" rel="noopener">you-get</a><br>You-Get 一小小哒命令行程序，提供便利的方式来下载近乎全网的视频。</p>
 <h2 id="共同构建"><a href="#共同构建" class="headerlink" title="共同构建"></a>共同构建</h2><p>仓库资源来自于我平时阅读各博客大佬、技术分享、微信社群时收集整理出来的，重在平时的积累。<br>当然，由于个人喜好问题也会有所偏向，所以欢迎各位大佬不吝分享，多给仓库提交Issue 推荐好用的工具/资源。觉得质量还不错，也欢迎给个Star。    </p>
 <p><strong>好用的工具/资源聚合仓库 <a href="https://github.com/YuniorZen/hub" target="_blank" rel="noopener">https://github.com/YuniorZen/hub</a></strong></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://yuniorzen.github.io/2020/01/01/小程序分享之：房价十年/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Yunior">
-      <meta itemprop="description" content="尤尼奥(Yunior)的个人博客">
-      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/6168355?s=460&v=4">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="尤尼奥">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/01/小程序分享之：房价十年/" itemprop="url">
-                  小程序分享之跨时代产品：房价十年
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Veröffentlicht am</span>
-              
-
-              
-                
-              
-
-              <time title="Post created: 2020-01-01 13:14:15" itemprop="dateCreated datePublished" datetime="2020-01-01T13:14:15+08:00">2020-01-01</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Updated at: 2020-02-19 20:40:24" itemprop="dateModified" datetime="2020-02-19T20:40:24+08:00">2020-02-19</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">in</span>
-              
-              
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>新的一年，我来分享一款“跨时代”的小程序产品，房价十年。听这名字就很明白了，一款功能单一直奔主题的小应用。<br><img src="https://yuniorzen.github.io/assets/image/house-ad-2020-01-01.png" alt="房价十年小程序码"></p>
-<h3 id="产品功能描述"><a href="#产品功能描述" class="headerlink" title="产品功能描述"></a>产品功能描述</h3><p>房价十年主要是搜集整理过去十年全国房价的趋势变化，查看过去十年间你所在城市、区和镇的房价变化。</p>
-<h3 id="为什么做这款产品"><a href="#为什么做这款产品" class="headerlink" title="为什么做这款产品"></a>为什么做这款产品</h3><p>这款产品完全是出于个人兴趣，好奇过去十年房价的趋势变化，没发现比较适合的产品很头疼，于是便动手开发了起来，数据来自各大公开房产网站，会尽量维护下去一起见证下一个十年，感受时间的力量。</p>
-<h3 id="做这款产品的发现"><a href="#做这款产品的发现" class="headerlink" title="做这款产品的发现"></a>做这款产品的发现</h3><p>观察数据的趋势变化会发现很多有趣的点。<br>一、中国股市从2015年6月开始一路急速下跌，巧的是2015年末中国房市却一路急速上涨，十年来增速最快的时期。现在两者都在慢熊状态。<br><img src="https://yuniorzen.github.io/assets/image/house-screen1-2020-01-01.jpeg" alt="上海房价十年"></p>
-<p>二、过去三年所有一线城市都是下降趋势，仅有一城一枝独秀，那就是深圳。<br><img src="https://yuniorzen.github.io/assets/image/house-screen3-2020-01-01.jpeg" alt="深圳房价十年"></p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>欢迎大家来吐槽，也会不断开发更多有意思的产品，如果你也有些小想法或者问题反馈，欢迎邮箱联系<a href="mailto:yuniorzen@qq.com" target="_blank" rel="noopener">yuniorzen@qq.com</a>。</p>
 
           
         
@@ -2166,7 +2334,7 @@
                 
                   <a href="/archives">
                 
-                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -2258,7 +2426,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">28</span>
+                      
+                    
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">Tags</span>
                   </a>
                 </div>
@@ -2312,7 +2482,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
