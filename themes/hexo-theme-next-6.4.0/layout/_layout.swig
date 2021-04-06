@@ -19,6 +19,7 @@
   {{ partial('_partials/head/head.swig', {}, {cache: theme.cache.enable}) }}
   {% include '_partials/head/head-unique.swig' %}
   <title>{% block title %}{% endblock %}</title>
+  <meta name="referrer" content="never"></meta>
   {% include '_third-party/analytics/index.swig' %}
   {{ partial('_scripts/noscript.swig', {}, {cache: theme.cache.enable}) }}
 </head>
